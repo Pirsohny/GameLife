@@ -13,6 +13,8 @@ import {
   getActiveTasks,
   getArchiveTasks,
   isMainDirection,
+  totalDoneSubtasks, 
+  dailyPaceInfo
 } from "@/lib/game";
 
 import { HudShell } from "@/components/HudShell";
@@ -35,6 +37,9 @@ export default function HomePage() {
 
   const xp = tasks ? totalXp(tasks, progress) : 0;
   const lvl = levelInfo(xp);
+
+  const doneSubs = tasks ? totalDoneSubtasks(tasks, progress) : 0;
+  const pace = dailyPaceInfo(doneSubs, "2025-12-14", 5);
 
   const activeTasks = useMemo(() => {
     if (!tasks) return [];
@@ -174,7 +179,19 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-
+            
+                {/* === DAILY PACE UI (вставлено) === */}
+                <div className="pt-2 border-t border-hudLine space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="text-hudDim">
+                      Темп: <span className="text-hudText">5</span> подзадач/день •
+                      Дней с 14.12.2025: <span className="text-hudText">{pace.days}</span>
+                    </div>
+                    <div className="text-hudDim">
+                      План: <span className="text-hudText">{pace.target}</span> • Сделано:{" "}
+                      <span className="text-hudText">{pace.totalDone}</span>
+                    </div>
+                  </div>
             {/* Рекомендации (5 подзадач) */}
             <HudPanel title="RECOMMENDED SUBTASKS">
               <div className="space-y-2">

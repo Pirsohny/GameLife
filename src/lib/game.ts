@@ -99,6 +99,37 @@ export function totalXp(tasks: Task[], progress: Progress) {
   return xp;
 }
 
+export function totalDoneSubtasks(tasks: Task[], progress: Progress) {
+  let done = 0;
+  for (const t of tasks) done += (progress[t.id] ?? 0);
+  return done;
+}
+
+/**
+ * Старт: 2025-12-14
+ * Норма: 5 подзадач/день
+ * days = количество дней "включительно" (14.12 = 1 день)
+ * Если хочешь "не включительно" — убери +1.
+ */
+export function dailyPaceInfo(totalDone: number, startISO = "2025-12-14", perDay = 5) {
+  const start = new Date(`${startISO}T00:00:00`);
+  const now = new Date();
+
+  // считаем дни по локальному времени пользователя (без часов)
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+
+  const diffMs = today.getTime() - startDay.getTime();
+  const diffDays = diffMs < 0 ? 0 : Math.floor(diffMs / 86400000);
+
+  const days = diffMs < 0 ? 0 : (diffDays + 1); // <-- включительно
+  const target = perDay * days;
+
+  const delta = totalDone - target; // >0 перебор, <0 недобор
+  return { days, perDay, target, totalDone, delta };
+}
+
+
 export function mainVsSideDoneSubtasks(tasks: Task[], progress: Progress) {
   let mainDone = 0, sideDone = 0;
   for (const t of tasks) {
