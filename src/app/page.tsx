@@ -40,6 +40,7 @@ export default function HomePage() {
 
   const doneSubs = tasks ? totalDoneSubtasks(tasks, progress) : 0;
   const pace = dailyPaceInfo(doneSubs, "2025-12-14", 5);
+  const paceProgress01 = pace.target > 0 ? Math.min(1, Math.max(0, pace.totalDone / pace.target)) : 1;
 
   const activeTasks = useMemo(() => {
     if (!tasks) return [];
@@ -167,7 +168,8 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="p-4 space-y-2">
+              <div className="p-4 space-y-3">
+              {/* XP bar */}
                 <div className="h-3 rounded bg-black/40 overflow-hidden border border-hudLine">
                   <div
                     className="h-3 bg-hudRed"
@@ -175,23 +177,46 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="text-xs text-hudDim">
-                  Текущие очки (за закрытые задачи): <span className="text-hudText">{xp}</span>
+                  Текущие очки (за закрытые задачи):{" "}
+                  <span className="text-hudText">{xp}</span>
                 </div>
-              </div>
-            </div>
-            
-                {/* === DAILY PACE UI (вставлено) === */}
+
+                {/* DAILY PACE */}
                 <div className="pt-2 border-t border-hudLine space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <div className="text-hudDim">
-                      Темп: <span className="text-hudText">5</span> подзадач/день •
-                      Дней с 14.12.2025: <span className="text-hudText">{pace.days}</span>
+                      Темп: <span className="text-hudText">5</span> подзадач/день • Дней с 14.12.2025:{" "}
+                        <span className="text-hudText">{pace.days}</span>
+                      </div>
+                      <div className="text-hudDim">
+                        План: <span className="text-hudText">{pace.target}</span> • Сделано:{" "}
+                          <span className="text-hudText">{pace.totalDone}</span>
+                        </div>
+                      </div>
+                      <div className="h-2 rounded bg-black/40 overflow-hidden border border-hudLine">
+                        <div
+                          className="h-2 bg-hudRed"
+                          style={{ width: `${Math.round(paceProgress01 * 100)}%` }}
+                        />
+                      </div>
+
+                      <div className="text-xs text-hudDim">
+                        {pace.delta < 0 ? (
+                          <>
+                          Нужно сделать ещё{" "}
+                          <span className="text-hudRed hud-glow">{Math.abs(pace.delta)}</span>
+                          </>
+                          ) : pace.delta > 0 ? (
+                          <>
+                          Перебор <span className="text-hudText">+{pace.delta}</span>
+                          </>
+                          ) : (
+                          <>Ровно по плану</>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-hudDim">
-                      План: <span className="text-hudText">{pace.target}</span> • Сделано:{" "}
-                      <span className="text-hudText">{pace.totalDone}</span>
-                    </div>
-                  </div>
+
             {/* Рекомендации (5 подзадач) */}
             <HudPanel title="RECOMMENDED SUBTASKS">
               <div className="space-y-2">
