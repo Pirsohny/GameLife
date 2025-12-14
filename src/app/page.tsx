@@ -172,8 +172,11 @@ export default function HomePage() {
               {/* XP bar */}
                 <div className="h-3 rounded bg-black/40 overflow-hidden border border-hudLine">
                   <div
-                    className="h-3 bg-hudRed"
-                    style={{ width: `${Math.round(lvl.progress01 * 100)}%` }}
+                    className="h-3"
+                    style={{
+                      width: `${Math.round(lvl.progress01 * 100)}%`,
+                      backgroundColor: "#00E5FF",
+                    }}
                   />
                 </div>
                 <div className="text-xs text-hudDim">
@@ -195,8 +198,11 @@ export default function HomePage() {
                       </div>
                       <div className="h-2 rounded bg-black/40 overflow-hidden border border-hudLine">
                         <div
-                          className="h-2 bg-hudRed"
-                          style={{ width: `${Math.round(paceProgress01 * 100)}%` }}
+                          className="h-3"
+                          style={{
+                            width: `${Math.round(lvl.progress01 * 100)}%`,
+                            backgroundColor: "#00E5FF",
+                          }}
                         />
                       </div>
 
@@ -213,9 +219,10 @@ export default function HomePage() {
                           ) : (
                           <>Ровно по плану</>
                           )}
-                        </div>
                       </div>
                     </div>
+                  </div>
+                </div>
 
             {/* Рекомендации (5 подзадач) */}
             <HudPanel title="RECOMMENDED SUBTASKS">

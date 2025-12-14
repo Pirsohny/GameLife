@@ -19,11 +19,13 @@ const rows = xlsx.utils.sheet_to_json(sheet, { defval: "" });
 
 // ⚠️ Подстрой под ТОЧНЫЕ названия колонок в Excel
 const COL = {
-  direction: "Направление",
+  directionID: "Направление",
   taskNumber: "Номер задания",
   subtaskNumber: "номер подзадачи",
   taskTitle: "Описание задачи",
   subtaskText: "описание подзадачи",
+  direction: "Название направления"
+
 };
 
 const asInt = (v) => {
@@ -34,11 +36,12 @@ const asInt = (v) => {
 const byTask = new Map(); // key: `${dir}-${taskNo}`
 
 for (const r of rows) {
-  const directionId = String(r[COL.direction] || "").trim();
+  const directionId = asInt(r[COL.directionID]);
   const taskNumber = asInt(r[COL.taskNumber]);
   const subtaskNumber = asInt(r[COL.subtaskNumber]);
   const taskTitle = String(r[COL.taskTitle] || "").trim();
   const subtaskText = String(r[COL.subtaskText] || "").trim();
+  const direction = String(r[COL.direction] || "").trim();
 
   if (!directionId || !taskNumber || !subtaskNumber) continue;
 
