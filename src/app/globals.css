@@ -27,3 +27,39 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+:root{
+  --hud-bg: #0A0D10;
+  --hud-bg2:#0D0F14;
+  --hud-red:#FF3C3C;
+}
+
+.bg-hud{
+  background:
+    radial-gradient(1200px 600px at 70% 20%, rgba(255,60,60,.08), transparent 55%),
+    radial-gradient(900px 500px at 20% 80%, rgba(255,60,60,.05), transparent 60%),
+    linear-gradient(180deg, var(--hud-bg2), var(--hud-bg));
+}
+
+.hud-scanlines{
+  position: relative;
+}
+.hud-scanlines::before{
+  content:"";
+  pointer-events:none;
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.03) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode: overlay;
+  opacity: .18;
+}
+.hud-glow{
+  text-shadow: 0 0 10px rgba(255,60,60,.22);
+}
+.hud-cut{
+  clip-path: polygon(0 0, 96% 0, 100% 12%, 100% 100%, 4% 100%, 0 88%);
+}

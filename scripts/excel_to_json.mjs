@@ -34,7 +34,7 @@ const asInt = (v) => {
 const byTask = new Map(); // key: `${dir}-${taskNo}`
 
 for (const r of rows) {
-  const directionId = asInt(r[COL.direction]);
+  const directionId = String(r[COL.direction] || "").trim();
   const taskNumber = asInt(r[COL.taskNumber]);
   const subtaskNumber = asInt(r[COL.subtaskNumber]);
   const taskTitle = String(r[COL.taskTitle] || "").trim();
